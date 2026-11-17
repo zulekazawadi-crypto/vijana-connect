@@ -1,0 +1,916 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #222;
+    background: #fff;
+    padding-top: 70px;
+}
+
+/* ---------- Header ---------- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #0f5132;
+    z-index: 1000;
+    transition: box-shadow 0.3s;
+}
+
+header.scrolled {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 70px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ---------- Logo ---------- */
+.logo h2 {
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.logo span {
+    color: #fbbf24;
+}
+
+/* ---------- Nav links ---------- */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #d1e7dd;
+    text-decoration: none;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #fff;
+    border-bottom-color: #fbbf24;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn,
+.register-btn {
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.login-btn {
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+.login-btn:hover {
+    background: #fff;
+    color: #0f5132;
+}
+
+.register-btn {
+    background: #fbbf24;
+    color: #0f5132;
+    border: 2px solid #fbbf24;
+}
+
+.register-btn:hover {
+    background: #f59e0b;
+    border-color: #f59e0b;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 120px;
+    }
+
+    .navbar {
+        justify-content: center;
+        padding: 10px 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+}
+.opportunities {
+    padding: 80px 0;
+    background: #f1f8f4;
+    scroll-margin-top: 70px;
+}
+
+.section-title {
+    color: #0f5132;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    border: 2px solid #0f5132;
+    background: transparent;
+    color: #0f5132;
+    padding: 8px 22px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #0f5132;
+    color: #fff;
+}
+.opp-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.opp-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.opp-card h5 {
+    color: #0f5132;
+    font-weight: 700;
+    margin: 12px 0 5px;
+}
+
+.opp-card .company {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.opp-card .meta {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.opp-card .desc {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.opp-card .deadline {
+    color: #dc3545;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.opp-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.opp-badge.job {
+    background: #0f5132;
+}
+
+.opp-badge.vacancy {
+    background: #0d6efd;
+}
+
+.opp-badge.attachment {
+    background: #f59e0b;
+}
+
+.apply-btn {
+    display: inline-block;
+    background: #fbbf24;
+    color: #0f5132;
+    text-decoration: none;
+    padding: 8px 22px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.apply-btn:hover {
+    background: #0f5132;
+    color: #fff;
+}
+/* ---------- Page banner (top of each inner page) ---------- */
+.page-banner {
+    text-align: center;
+    color: #fff;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #0f5132 0%, #198754 100%);
+}
+
+.page-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.page-banner p {
+    color: #e2f3ea;
+    margin: 0;
+}
+
+.page-section {
+    padding: 70px 0;
+}
+
+/* ---------- Info cards (Training, About, Contact) ---------- */
+.info-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.info-card h5 {
+    color: #0f5132;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.info-card p {
+    color: #555;
+}
+
+.info-card .meta {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* ---------- Contact form ---------- */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #0f5132;
+}
+
+.contact-form button {
+    border: none;
+    cursor: pointer;
+}
+/* ---------- Hero ---------- */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    color: #fff;
+    background: linear-gradient(135deg, #0f5132 0%, #198754 100%);
+}
+
+.hero-content {
+    max-width: 750px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #fbbf24;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #e2f3ea;
+}
+
+.hero-btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #fbbf24;
+    color: #0f5132;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    margin: 5px;
+    transition: all 0.3s;
+}
+
+.hero-btn:hover {
+    background: #f59e0b;
+    transform: translateY(-3px);
+}
+
+.hero-btn.outline {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.hero-btn.outline:hover {
+    background: #fff;
+    color: #0f5132;
+}
+
+/* ---------- What we offer ---------- */
+.offer {
+    padding: 80px 0;
+}
+
+.offer-card {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    text-align: center;
+    padding: 35px 25px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.offer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+.offer-card h5 {
+    color: #0f5132;
+    font-weight: 700;
+}
+
+.offer-card p {
+    color: #555;
+    margin: 0;
+}
+
+/* ---------- Page banner (inner pages) ---------- */
+.page-banner {
+    text-align: center;
+    color: #fff;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #0f5132 0%, #198754 100%);
+}
+
+.page-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.page-banner p {
+    color: #e2f3ea;
+    margin: 0;
+}
+
+.page-section {
+    padding: 70px 0;
+}
+
+/* ---------- Info cards (Training, About, Contact) ---------- */
+.info-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.info-card h5 {
+    color: #0f5132;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.info-card p {
+    color: #555;
+}
+
+.info-card .meta {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* ---------- Contact form ---------- */
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #0f5132;
+}
+
+.contact-form button {
+    border: none;
+    cursor: pointer;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+    background: #0f5132;
+    color: #d1e7dd;
+    text-align: center;
+    padding: 20px;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+}
+/* ================= HOMEPAGE REDESIGN ================= */
+
+/* ---------- Hero ---------- */
+.home-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 90px 0 110px;
+    color: #fff;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(251, 191, 36, 0.18), transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.10), transparent 45%),
+        linear-gradient(135deg, #0a3622 0%, #0f5132 50%, #198754 100%);
+}
+
+.hero-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.home-hero h1 {
+    font-size: 3.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.home-hero h1 span {
+    color: #fbbf24;
+}
+
+.home-hero p {
+    font-size: 1.2rem;
+    color: #d9efe3;
+    max-width: 520px;
+    margin-bottom: 30px;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.btn-gold,
+.btn-ghost,
+.btn-dark-green {
+    display: inline-block;
+    text-decoration: none;
+    padding: 13px 30px;
+    border-radius: 35px;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.btn-gold {
+    background: #fbbf24;
+    color: #0a3622;
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.35);
+}
+
+.btn-gold:hover {
+    background: #f59e0b;
+    color: #0a3622;
+    transform: translateY(-3px);
+}
+
+.btn-ghost {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.btn-ghost:hover {
+    background: #fff;
+    color: #0f5132;
+}
+
+.btn-dark-green {
+    background: #0f5132;
+    color: #fff;
+}
+
+.btn-dark-green:hover {
+    background: #0a3622;
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.hero-trust {
+    font-size: 0.9rem;
+    color: #d9efe3;
+}
+
+.hero-trust i {
+    color: #fbbf24;
+    margin: 0 4px 0 14px;
+}
+
+.hero-trust i:first-child {
+    margin-left: 0;
+}
+
+/* Floating cards */
+.hero-visual {
+    position: relative;
+    height: 380px;
+}
+
+.float-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    color: #222;
+    padding: 16px 22px;
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+    animation: floaty 4s ease-in-out infinite;
+}
+
+.float-card i {
+    font-size: 1.6rem;
+    color: #0f5132;
+    background: #e3f4ea;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.float-card strong {
+    display: block;
+}
+
+.float-card small {
+    color: #777;
+}
+
+.fc-1 { top: 10px;  left: 10%;  animation-delay: 0s; }
+.fc-2 { top: 140px; right: 0;   animation-delay: 1s; }
+.fc-3 { bottom: 10px; left: 20%; animation-delay: 2s; }
+
+@keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-14px); }
+}
+
+/* ---------- Stats strip ---------- */
+.stats-strip {
+    background: #fff;
+    padding: 45px 0;
+    margin-top: -45px;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-strip .container {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    padding: 35px 20px;
+}
+
+.stats-strip h3 {
+    color: #0f5132;
+    font-weight: 800;
+    font-size: 2.3rem;
+    margin: 0;
+}
+
+.stats-strip h3::after {
+    content: "+";
+    color: #fbbf24;
+}
+
+.stats-strip p {
+    color: #666;
+    margin: 0;
+}
+
+/* ---------- Sections ---------- */
+.home-section {
+    padding: 85px 0;
+}
+
+.alt-bg {
+    background: #f1f8f4;
+}
+
+.heading {
+    color: #0f5132;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.subheading {
+    color: #666;
+    margin-bottom: 45px;
+}
+
+/* ---------- Offer cards (override) ---------- */
+.offer-card {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    text-align: center;
+    padding: 38px 28px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #e4efe8;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.offer-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 35px rgba(15, 81, 50, 0.2);
+}
+
+.icon-circle {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #e3f4ea;
+    color: #0f5132;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-circle.blue   { background: #e1ecff; color: #0d6efd; }
+.icon-circle.orange { background: #fff1d6; color: #f59e0b; }
+
+.offer-card h5 {
+    color: #0f5132;
+    font-weight: 700;
+}
+
+.offer-card p {
+    color: #666;
+}
+
+.learn-more {
+    color: #0f5132;
+    font-weight: 700;
+}
+
+/* ---------- Steps ---------- */
+.step-card {
+    text-align: center;
+    background: #fff;
+    padding: 40px 28px 30px;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    height: 100%;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #0f5132;
+    color: #fbbf24;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.step-card h5 {
+    color: #0f5132;
+    font-weight: 700;
+}
+
+.step-card p {
+    color: #666;
+    margin: 0;
+}
+
+/* ---------- Testimonials ---------- */
+.quote-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    height: 100%;
+    border-top: 4px solid #fbbf24;
+}
+
+.quote-card i {
+    font-size: 2.8rem;
+    color: #fbbf24;
+    line-height: 1;
+}
+
+.quote-card p {
+    color: #444;
+    font-style: italic;
+}
+
+.quote-card strong {
+    display: block;
+    color: #0f5132;
+}
+
+.quote-card small {
+    color: #888;
+}
+
+/* ---------- Call to action ---------- */
+.cta-banner {
+    padding: 80px 0;
+    color: #fff;
+    background: linear-gradient(135deg, #0a3622, #198754);
+}
+
+.cta-banner h2 {
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.cta-banner p {
+    color: #d9efe3;
+    margin-bottom: 28px;
+}
+
+/* ---------- Footer ---------- */
+.big-footer {
+    background: #072a1a;
+    color: #b9d6c6;
+    padding-top: 60px;
+}
+
+.big-footer h4 {
+    color: #fff;
+    font-weight: 800;
+}
+
+.big-footer h4 span {
+    color: #fbbf24;
+}
+
+.big-footer h6 {
+    color: #fff;
+    margin-bottom: 14px;
+}
+
+.big-footer a {
+    display: block;
+    color: #b9d6c6;
+    text-decoration: none;
+    margin-bottom: 8px;
+    transition: color 0.3s;
+}
+
+.big-footer a:hover {
+    color: #fbbf24;
+}
+
+.big-footer p {
+    margin-bottom: 8px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 40px;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 991px) {
+    .hero-visual {
+        height: 330px;
+    }
+    .home-hero h1 {
+        font-size: 2.6rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .home-hero {
+        padding: 60px 0 90px;
+    }
+    .fc-1 { left: 0; }
+    .fc-3 { left: 5%; }
+}

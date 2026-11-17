@@ -1,0 +1,208 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Vijana Connect | Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="home-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+                <span class="hero-tag"><i class="bi bi-stars"></i> Kenya's youth opportunity hub</span>
+                <h1>Your Future Starts <span>Here</span></h1>
+                <p>Find jobs, vacancies, attachments and skills training from trusted companies, all in one place.</p>
+                <div class="hero-actions">
+                    <a href="{% url 'opportunities' %}" class="btn-gold">Explore Opportunities <i class="bi bi-arrow-right"></i></a>
+                    <a href="{% url 'training' %}" class="btn-ghost">Get Training</a>
+                </div>
+                <div class="hero-trust">
+                    <i class="bi bi-check-circle-fill"></i> Free to join
+                    <i class="bi bi-check-circle-fill"></i> Verified companies
+                    <i class="bi bi-check-circle-fill"></i> Apply in minutes
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="hero-visual">
+                    <div class="float-card fc-1">
+                        <i class="bi bi-briefcase-fill"></i>
+                        <div><strong>Software Developer</strong><small>TechHub Kenya &bull; Nairobi</small></div>
+                    </div>
+                    <div class="float-card fc-2">
+                        <i class="bi bi-mortarboard-fill"></i>
+                        <div><strong>ICT Attachment</strong><small>BrightPath Media &bull; Nakuru</small></div>
+                    </div>
+                    <div class="float-card fc-3">
+                        <i class="bi bi-people-fill"></i>
+                        <div><strong>1,200+ youth</strong><small>already connected</small></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-strip">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-6 col-md-3"><h3 class="counter" data-target="1200">0</h3><p>Young people</p></div>
+            <div class="col-6 col-md-3"><h3 class="counter" data-target="85">0</h3><p>Partner companies</p></div>
+            <div class="col-6 col-md-3"><h3 class="counter" data-target="300">0</h3><p>Opportunities posted</p></div>
+            <div class="col-6 col-md-3"><h3 class="counter" data-target="40">0</h3><p>Training courses</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- WHAT WE OFFER -->
+<section class="home-section">
+    <div class="container">
+        <h2 class="heading text-center">What We Offer</h2>
+        <p class="subheading text-center">Everything you need to start your career</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a href="{% url 'opportunities' %}?filter=job" class="offer-card">
+                    <div class="icon-circle"><i class="bi bi-briefcase"></i></div>
+                    <h5>Jobs</h5>
+                    <p>Full-time and part-time jobs from trusted companies.</p>
+                    <span class="learn-more">Browse jobs <i class="bi bi-arrow-right"></i></span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'opportunities' %}?filter=vacancy" class="offer-card">
+                    <div class="icon-circle blue"><i class="bi bi-megaphone"></i></div>
+                    <h5>Vacancies</h5>
+                    <p>Current openings for young people across Kenya.</p>
+                    <span class="learn-more">See vacancies <i class="bi bi-arrow-right"></i></span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'opportunities' %}?filter=attachment" class="offer-card">
+                    <div class="icon-circle orange"><i class="bi bi-mortarboard"></i></div>
+                    <h5>Attachments</h5>
+                    <p>Industrial attachment and internship placements.</p>
+                    <span class="learn-more">Find attachments <i class="bi bi-arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="home-section alt-bg">
+    <div class="container">
+        <h2 class="heading text-center">How It Works</h2>
+        <p class="subheading text-center">Three simple steps to your next opportunity</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="step-card">
+                    <span class="step-number">1</span>
+                    <h5>Create an account</h5>
+                    <p>Register for free and build your youth profile.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <span class="step-number">2</span>
+                    <h5>Find what fits you</h5>
+                    <p>Filter jobs, vacancies and attachments near you.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <span class="step-number">3</span>
+                    <h5>Apply and grow</h5>
+                    <p>Apply in minutes and take training to improve your skills.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED OPPORTUNITIES -->
+<section class="home-section">
+    <div class="container">
+        <h2 class="heading text-center">Featured Opportunities</h2>
+        <p class="subheading text-center">Fresh openings from our partner companies</p>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="opp-card">
+                    <span class="opp-badge job">Job</span>
+                    <h5>Software Developer</h5>
+                    <p class="company">TechHub Kenya</p>
+                    <p class="meta">Nairobi &bull; Full-time</p>
+                    <p class="deadline">Deadline: 30 Dec 2026</p>
+                    <a href="{% url 'opportunities' %}" class="apply-btn">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="opp-card">
+                    <span class="opp-badge vacancy">Vacancy</span>
+                    <h5>Sales Assistant</h5>
+                    <p class="company">Savanna Supermarkets</p>
+                    <p class="meta">Eldoret &bull; Contract</p>
+                    <p class="deadline">Deadline: 20 Dec 2026</p>
+                    <a href="{% url 'opportunities' %}" class="apply-btn">View Details</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="opp-card">
+                    <span class="opp-badge attachment">Attachment</span>
+                    <h5>ICT Attachment</h5>
+                    <p class="company">BrightPath Media</p>
+                    <p class="meta">Nakuru &bull; 3 Months</p>
+                    <p class="deadline">Deadline: 10 Jan 2027</p>
+                    <a href="{% url 'opportunities' %}" class="apply-btn">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'opportunities' %}" class="btn-dark-green">See All Opportunities</a>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="home-section alt-bg">
+    <div class="container">
+        <h2 class="heading text-center">Success Stories</h2>
+        <p class="subheading text-center">What young people say about Vijana Connect</p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="quote-card">
+                    <i class="bi bi-quote"></i>
+                    <p>I found my attachment in two days and was offered a job after.</p>
+                    <strong>Brian K.</strong><small>ICT Student, Nakuru</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="quote-card">
+                    <i class="bi bi-quote"></i>
+                    <p>The CV training helped me pass my first interview.</p>
+                    <strong>Faith W.</strong><small>Graduate, Nairobi</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="quote-card">
+                    <i class="bi bi-quote"></i>
+                    <p>Easy to use, even on my phone. I applied to five places in one evening.</p>
+                    <strong>Kevin M.</strong><small>Job seeker, Kisumu</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="cta-banner">
+    <div class="container text-center">
+        <h2>Ready to take the next step?</h2>
+        <p>Join thousands of young people building their careers.</p>
+        <a href="#" class="btn-gold">Create Free Account</a>
+    </div>
+</section>
+
+{% endblock %}
