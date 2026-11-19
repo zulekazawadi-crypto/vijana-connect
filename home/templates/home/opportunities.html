@@ -20,152 +20,23 @@
         </div>
 
         <div class="row g-4">
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="job">
+            {% for opp in items %}
+            <div class="col-md-6 col-lg-4 opp-item" data-category="{{ opp.category }}">
                 <div class="opp-card">
-                    <span class="opp-badge job">Job</span>
-                    <h5>Software Developer</h5>
-                    <p class="company">TechHub Kenya</p>
-                    <p class="meta">Nairobi &bull; Full-time</p>
-                    <p class="desc">Build and maintain web applications with a young, growing team.</p>
-                    <p class="deadline">Deadline: 30 Dec 2026</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
+                    <span class="opp-badge {{ opp.category }}">{{ opp.get_category_display }}</span>
+                    <h5>{{ opp.title }}</h5>
+                    <p class="company">{{ opp.company }}</p>
+                    <p class="meta">{{ opp.location }} &bull; {{ opp.job_type }}</p>
+                    <p class="desc">{{ opp.description }}</p>
+                    <p class="deadline">Deadline: {{ opp.deadline|date:"j M Y" }}</p>
+                    <a href="{% url 'apply' opp.id %}" class="apply-btn">Apply Now</a>
                 </div>
             </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="vacancy">
-                <div class="opp-card">
-                    <span class="opp-badge vacancy">Vacancy</span>
-                    <h5>Sales Assistant</h5>
-                    <p class="company">Savanna Supermarkets</p>
-                    <p class="meta">Eldoret &bull; Contract</p>
-                    <p class="desc">Assist customers, manage stock and support daily store operations.</p>
-                    <p class="deadline">Deadline: 20 Dec 2026</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="attachment">
-                <div class="opp-card">
-                    <span class="opp-badge attachment">Attachment</span>
-                    <h5>ICT Attachment</h5>
-                    <p class="company">BrightPath Media</p>
-                    <p class="meta">Nakuru &bull; 3 Months</p>
-                    <p class="desc">Gain hands-on experience in IT support, networking and web design.</p>
-                    <p class="deadline">Deadline: 10 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="job">
-                <div class="opp-card">
-                    <span class="opp-badge job">Job</span>
-                    <h5>Accounts Clerk</h5>
-                    <p class="company">GreenFarm Ltd</p>
-                    <p class="meta">Kisumu &bull; Full-time</p>
-                    <p class="desc">Handle invoices, payments and monthly financial records.</p>
-                    <p class="deadline">Deadline: 15 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="vacancy">
-                <div class="opp-card">
-                    <span class="opp-badge vacancy">Vacancy</span>
-                    <h5>Customer Care Officer</h5>
-                    <p class="company">Nairobi Health Clinic</p>
-                    <p class="meta">Nairobi &bull; Full-time</p>
-                    <p class="desc">Welcome patients, answer calls and manage appointments.</p>
-                    <p class="deadline">Deadline: 5 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="attachment">
-                <div class="opp-card">
-                    <span class="opp-badge attachment">Attachment</span>
-                    <h5>Business Attachment</h5>
-                    <p class="company">Rift Valley Traders</p>
-                    <p class="meta">Mombasa &bull; 2 Months</p>
-                    <p class="desc">Learn marketing, record keeping and customer service on the job.</p>
-                    <p class="deadline">Deadline: 28 Dec 2026</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="job">
-                <div class="opp-card">
-                    <span class="opp-badge job">Job</span>
-                    <h5>Graphic Designer</h5>
-                    <p class="company">Creative Minds Studio</p>
-                    <p class="meta">Nairobi &bull; Full-time</p>
-                    <p class="desc">Design logos, posters and social media content for clients.</p>
-                    <p class="deadline">Deadline: 18 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="job">
-                <div class="opp-card">
-                    <span class="opp-badge job">Job</span>
-                    <h5>Delivery Rider</h5>
-                    <p class="company">QuickMove Logistics</p>
-                    <p class="meta">Nakuru &bull; Full-time</p>
-                    <p class="desc">Deliver parcels within town. Own motorbike and licence required.</p>
-                    <p class="deadline">Deadline: 22 Dec 2026</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="vacancy">
-                <div class="opp-card">
-                    <span class="opp-badge vacancy">Vacancy</span>
-                    <h5>Farm Supervisor</h5>
-                    <p class="company">Highland Agro Ltd</p>
-                    <p class="meta">Kericho &bull; Contract</p>
-                    <p class="desc">Oversee daily farm activities and manage a small team of workers.</p>
-                    <p class="deadline">Deadline: 12 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="vacancy">
-                <div class="opp-card">
-                    <span class="opp-badge vacancy">Vacancy</span>
-                    <h5>Front Office Receptionist</h5>
-                    <p class="company">Lakeview Hotel</p>
-                    <p class="meta">Kisumu &bull; Full-time</p>
-                    <p class="desc">Welcome guests, handle bookings and answer enquiries.</p>
-                    <p class="deadline">Deadline: 8 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="attachment">
-                <div class="opp-card">
-                    <span class="opp-badge attachment">Attachment</span>
-                    <h5>Engineering Attachment</h5>
-                    <p class="company">PowerGrid Solutions</p>
-                    <p class="meta">Nairobi &bull; 3 Months</p>
-                    <p class="desc">Work with electrical engineers on installations and maintenance.</p>
-                    <p class="deadline">Deadline: 20 Jan 2027</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4 opp-item" data-category="attachment">
-                <div class="opp-card">
-                    <span class="opp-badge attachment">Attachment</span>
-                    <h5>Journalism Attachment</h5>
-                    <p class="company">Daily Voice Media</p>
-                    <p class="meta">Eldoret &bull; 2 Months</p>
-                    <p class="desc">Learn news writing, photography and radio production.</p>
-                    <p class="deadline">Deadline: 30 Dec 2026</p>
-                    <a href="#" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-
+            {% empty %}
+            <p class="text-center">No opportunities available right now.</p>
+            {% endfor %}
         </div>
+
     </div>
 </section>
 

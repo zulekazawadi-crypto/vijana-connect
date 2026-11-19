@@ -12,18 +12,18 @@
 <section class="page-section">
     <div class="container">
         <div class="row g-4">
-
             {% for course in courses %}
             <div class="col-md-6 col-lg-4">
                 <div class="info-card">
                     <h5>{{ course.title }}</h5>
                     <p>{{ course.description }}</p>
                     <p class="meta">Duration: {{ course.duration }}</p>
-                    <a href="#" class="apply-btn">Enroll</a>
+                    <a href="{% url 'enroll' course.id %}" class="apply-btn">Enroll</a>
                 </div>
             </div>
+            {% empty %}
+            <p class="text-center">No courses available right now.</p>
             {% endfor %}
-
         </div>
     </div>
 </section>

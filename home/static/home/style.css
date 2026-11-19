@@ -914,3 +914,73 @@ header.scrolled {
     .fc-1 { left: 0; }
     .fc-3 { left: 5%; }
 }
+/* ---------- Login / register / forms ---------- */
+.nav-buttons {
+    align-items: center;
+}
+
+.welcome {
+    color: #fff;
+    font-weight: 600;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+button.login-btn {
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.auth-wrapper {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.contact-form label {
+    display: block;
+    font-weight: 600;
+    color: #0f5132;
+    margin-bottom: 5px;
+}
+
+.contact-form select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+    background: #fff;
+}
+
+.field-error {
+    display: block;
+    color: #dc3545;
+    margin: -10px 0 12px;
+}
+
+/* ---------- Dashboard ---------- */
+.stat-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #fbbf24;
+}
+
+.stat-box h2 {
+    color: #0f5132;
+    font-weight: 800;
+    font-size: 2.8rem;
+    margin: 0;
+}
+
+.stat-box p {
+    color: #666;
+    margin: 0;
+}

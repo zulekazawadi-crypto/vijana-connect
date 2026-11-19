@@ -1,0 +1,26 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Register | Vijana Connect{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="auth-wrapper">
+        <div class="info-card">
+            <h4>Create your account</h4>
+            <p class="meta">Already registered? <a href="{% url 'login' %}">Login</a></p>
+
+            <form class="contact-form" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <small class="field-error">{{ error }}</small>
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit" class="apply-btn">Register</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
