@@ -43,6 +43,14 @@ class Training(models.Model):
 
 class Application(models.Model):
     """One person applying for one opportunity."""
+
+    # The three results an application can have (the admin changes this)
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('selected', 'Selected'),
+        ('not_selected', 'Not Selected'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     opportunity = models.ForeignKey(Opportunity, on_delete=models.CASCADE,
                                     related_name='applications')
@@ -53,6 +61,15 @@ class Application(models.Model):
                                  verbose_name="Highest education level")
     message = models.TextField(blank=True, verbose_name="Why are you a good fit? (optional)")
     applied_at = models.DateTimeField(auto_now_add=True)
+
+    # NEW: the result of the application, starts as "pending"
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    # NEW: the admin writes instructions here for people who are selected
+    instructions = models.TextField(
+        blank=True,
+        help_text="Shown to the applicant when the status is Selected."
+    )
 
     class Meta:
         # a person can apply to the same opportunity only once

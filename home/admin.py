@@ -14,7 +14,6 @@ class OpportunityAdmin(admin.ModelAdmin):
 
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
-    # "enrolled" shows how many people enrolled in the course
     list_display = ('title', 'duration', 'enrolled')
 
     def enrolled(self, obj):
@@ -23,8 +22,10 @@ class TrainingAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'opportunity', 'email', 'phone', 'education', 'applied_at')
-    list_filter = ('opportunity', 'education')
+    # "status" can be changed directly in the list (list_editable below)
+    list_display = ('full_name', 'opportunity', 'email', 'phone', 'education', 'status', 'applied_at')
+    list_editable = ('status',)
+    list_filter = ('status', 'opportunity', 'education')
     search_fields = ('full_name', 'email')
 
 

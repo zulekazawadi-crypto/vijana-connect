@@ -984,3 +984,47 @@ button.login-btn {
     color: #666;
     margin: 0;
 }
+/* ---------- Application status ---------- */
+.status-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #8a6d00;
+}
+
+.status-selected {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.status-not_selected {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.instructions-box {
+    background: #e8f5ee;
+    border-left: 4px solid #198754;
+    padding: 15px 18px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.instructions-box h6 {
+    color: #0f5132;
+    font-weight: 700;
+}
+
+.notselected-box {
+    background: #fdf2f3;
+    border-left: 4px solid #dc3545;
+    padding: 15px 18px;
+    border-radius: 8px;
+    margin-top: 10px;
+}

@@ -26,6 +26,7 @@
             <div class="nav-buttons">
                 {% if user.is_authenticated %}
                     <span class="welcome">Hi, {{ user.username }}</span>
+                    <a href="{% url 'my_applications' %}" class="login-btn">My Applications</a>
                     <form method="post" action="{% url 'logout' %}" class="logout-form">
                         {% csrf_token %}
                         <button type="submit" class="login-btn">Logout</button>

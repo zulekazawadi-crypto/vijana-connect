@@ -14,9 +14,11 @@ urlpatterns = [
     path('apply/<int:opp_id>/', views.apply, name='apply'),
     path('enroll/<int:course_id>/', views.enroll, name='enroll'),
 
+    # Track applications (new)
+    path('my-applications/', views.my_applications, name='my_applications'),
+
     # Accounts
     path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='home/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
 ]

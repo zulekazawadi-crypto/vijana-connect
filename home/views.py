@@ -64,7 +64,7 @@ def apply(request, opp_id):
             application.opportunity = opportunity  # what they applied for
             application.save()                     # now save to the database
             messages.success(request, 'Your application has been submitted.')
-            return redirect('opportunities')
+            return redirect('my_applications')
     else:
         form = ApplicationForm(initial={'email': request.user.email})
 
@@ -126,3 +126,10 @@ def dashboard(request):
         'recent_applications': Application.objects.select_related('user', 'opportunity')[:10],
     }
     return render(request, 'home/dashboard.html', context)
+
+
+@login_required
+def my_applications(request):
+    """Lets a logged-in user track the status of their own applications."""
+    applications = Application.objects.filter(user=request.user).select_related('opportunity')
+    return render(request, 'home/my_applications.html', {'applications': applications})
