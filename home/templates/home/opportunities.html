@@ -28,6 +28,12 @@
                     <p class="company">{{ opp.company }}</p>
                     <p class="meta">{{ opp.location }} &bull; {{ opp.job_type }}</p>
                     <p class="desc">{{ opp.description }}</p>
+                    {% if opp.min_education or opp.requirements %}
+                    <p class="requirements">
+                    <strong>Requirements:</strong>
+                     {% if opp.min_education %}{{ opp.get_min_education_display }} or higher. {% endif %}{{ opp.requirements }}
+                    </p>
+                    {% endif %}
                     <p class="deadline">Deadline: {{ opp.deadline|date:"j M Y" }}</p>
                     <a href="{% url 'apply' opp.id %}" class="apply-btn">Apply Now</a>
                 </div>

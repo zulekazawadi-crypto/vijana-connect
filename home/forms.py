@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Application, Enrollment
+from .models import Profile, Application, Enrollment
 
 
 class RegisterForm(UserCreationForm):
@@ -11,6 +11,13 @@ class RegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('username', 'email')
+
+
+class ProfileForm(forms.ModelForm):
+    """The profile a user completes once after registering."""
+    class Meta:
+        model = Profile
+        fields = ['full_name', 'phone', 'education']
 
 
 class ApplicationForm(forms.ModelForm):

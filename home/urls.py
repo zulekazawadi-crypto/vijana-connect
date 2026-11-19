@@ -14,12 +14,13 @@ urlpatterns = [
     path('apply/<int:opp_id>/', views.apply, name='apply'),
     path('enroll/<int:course_id>/', views.enroll, name='enroll'),
 
-    # Track applications (new)
+    # Tracking
     path('my-applications/', views.my_applications, name='my_applications'),
     path('my-enrollments/', views.my_enrollments, name='my_enrollments'),
 
-    # Accounts
+    # Accounts and profile
     path('register/', views.register, name='register'),
+    path('profile/', views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='home/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]

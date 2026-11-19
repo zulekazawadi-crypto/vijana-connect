@@ -2,11 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.db.models import Count
 
-from .models import Opportunity, Training, Application, Enrollment
-from .forms import RegisterForm, ApplicationForm, EnrollmentForm
+from .models import Opportunity, Training, Application, Enrollment, Profile
+from .forms import RegisterForm, ProfileForm, ApplicationForm, EnrollmentForm
 
 
 def index(request):
@@ -33,25 +31,66 @@ def training(request):
 
 
 def register(request):
-    """Create a new account, then log the person in."""
+    """Create a new account, log the person in, then ask them to complete their profile."""
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Welcome! Your account has been created.')
-            return redirect('index')
+            messages.success(request, 'Welcome! Please complete your profile.')
+            return redirect('profile')
     else:
         form = RegisterForm()
     return render(request, 'home/register.html', {'form': form})
 
 
-@login_required  # sends people to the login page first if they are not logged in
+@login_required
+def profile(request):
+    """Create or edit the logged-in user's profile."""
+    existing = Profile.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=existing)
+        if form.is_valid():
+            saved = form.save(commit=False)
+            saved.user = request.user
+            saved.save()
+            messages.success(request, 'Your profile has been saved.')
+            return redirect('opportunities')  # journey: Complete Profile -> Explore Opportunities
+    else:
+        form = ProfileForm(instance=existing)
+
+    return render(request, 'home/details_form.html', {
+        'form': form,
+        'page_title': 'My Profile',
+        'heading': 'My Profile',
+        'subheading': 'Fill this in once and we will use it on your applications.',
+        'button_text': 'Save Profile',
+    })
+
+
+@login_required
 def apply(request, opp_id):
     """Application form for one opportunity."""
     opportunity = get_object_or_404(Opportunity, id=opp_id)
 
-    # Stop double applications
+    # Step 1: the person must have a profile first
+    user_profile = Profile.objects.filter(user=request.user).first()
+    if user_profile is None:
+        messages.info(request, 'Please complete your profile before applying.')
+        return redirect('profile')
+
+    # Step 2: Meets Requirements? If not, send them back to Explore Opportunities
+    if not opportunity.is_met_by(user_profile.education):
+        messages.warning(
+            request,
+            f'Sorry, you do not meet the requirements for {opportunity.title}. '
+            f'Minimum education: {opportunity.get_min_education_display()}. '
+            f'Explore the other opportunities below.'
+        )
+        return redirect('opportunities')
+
+    # Step 3: stop double applications
     if Application.objects.filter(user=request.user, opportunity=opportunity).exists():
         messages.info(request, 'You have already applied for this opportunity.')
         return redirect('opportunities')
@@ -66,7 +105,13 @@ def apply(request, opp_id):
             messages.success(request, 'Your application has been submitted.')
             return redirect('my_applications')
     else:
-        form = ApplicationForm(initial={'email': request.user.email})
+        # Fill the form from the profile so the person does not type it again
+        form = ApplicationForm(initial={
+            'full_name': user_profile.full_name,
+            'email': request.user.email,
+            'phone': user_profile.phone,
+            'education': user_profile.education,
+        })
 
     return render(request, 'home/details_form.html', {
         'form': form,
@@ -96,7 +141,16 @@ def enroll(request, course_id):
             messages.success(request, 'You have been enrolled successfully.')
             return redirect('my_enrollments')
     else:
-        form = EnrollmentForm(initial={'email': request.user.email})
+        # Fill from the profile if the person has one
+        user_profile = Profile.objects.filter(user=request.user).first()
+        initial = {'email': request.user.email}
+        if user_profile:
+            initial.update({
+                'full_name': user_profile.full_name,
+                'phone': user_profile.phone,
+                'education': user_profile.education,
+            })
+        form = EnrollmentForm(initial=initial)
 
     return render(request, 'home/details_form.html', {
         'form': form,
@@ -105,27 +159,6 @@ def enroll(request, course_id):
         'subheading': f'Duration: {course.duration}',
         'button_text': 'Enroll Now',
     })
-
-
-@login_required  # not logged in -> sent to the login page
-def dashboard(request):
-    """Shows how many people registered, applied and enrolled. Admin only."""
-
-    # Logged in but not an admin -> send them home with a message
-    if not request.user.is_staff:
-        messages.warning(request, 'Only the admin can view the dashboard.')
-        return redirect('index')
-
-    context = {
-        'total_users': User.objects.count(),
-        'total_applications': Application.objects.count(),
-        'total_enrollments': Enrollment.objects.count(),
-        # Count() adds a "num" to each opportunity/course = how many applied/enrolled
-        'opportunities': Opportunity.objects.annotate(num=Count('applications')).order_by('-num'),
-        'courses': Training.objects.annotate(num=Count('enrollments')).order_by('-num'),
-        'recent_applications': Application.objects.select_related('user', 'opportunity')[:10],
-    }
-    return render(request, 'home/dashboard.html', context)
 
 
 @login_required

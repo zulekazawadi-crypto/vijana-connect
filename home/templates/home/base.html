@@ -28,6 +28,7 @@
                     <span class="welcome">Hi, {{ user.username }}</span>
                     <a href="{% url 'my_applications' %}" class="login-btn">My Applications</a>
                     <a href="{% url 'my_enrollments' %}" class="login-btn">My Enrollments</a>
+                    <a href="{% url 'profile' %}" class="login-btn">My Profile</a>
                     <form method="post" action="{% url 'logout' %}" class="logout-form">
                         {% csrf_token %}
                         <button type="submit" class="login-btn">Logout</button>

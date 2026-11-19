@@ -1,11 +1,16 @@
 from django.contrib import admin
-from .models import Opportunity, Training, Application, Enrollment
+from .models import Opportunity, Training, Application, Enrollment, Profile
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'full_name', 'phone', 'education')
+    search_fields = ('full_name', 'user__username')
 
 
 @admin.register(Opportunity)
 class OpportunityAdmin(admin.ModelAdmin):
-    # "applicants" is a custom column showing how many people applied
-    list_display = ('title', 'company', 'category', 'deadline', 'is_active', 'applicants')
+    list_display = ('title', 'company', 'category', 'min_education', 'deadline', 'is_active', 'applicants')
     list_filter = ('category', 'is_active')
 
     def applicants(self, obj):
@@ -22,7 +27,6 @@ class TrainingAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    # "status" can be changed directly in the list (list_editable below)
     list_display = ('full_name', 'opportunity', 'email', 'phone', 'education', 'status', 'applied_at')
     list_editable = ('status',)
     list_filter = ('status', 'opportunity', 'education')
@@ -31,7 +35,6 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
-    # "status" can be changed directly in the list (list_editable below)
     list_display = ('full_name', 'training', 'email', 'phone', 'education', 'status', 'enrolled_at')
     list_editable = ('status',)
     list_filter = ('status', 'training', 'education')
