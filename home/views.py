@@ -94,7 +94,7 @@ def enroll(request, course_id):
             enrollment.training = course
             enrollment.save()
             messages.success(request, 'You have been enrolled successfully.')
-            return redirect('training')
+            return redirect('my_enrollments')
     else:
         form = EnrollmentForm(initial={'email': request.user.email})
 
@@ -133,3 +133,10 @@ def my_applications(request):
     """Lets a logged-in user track the status of their own applications."""
     applications = Application.objects.filter(user=request.user).select_related('opportunity')
     return render(request, 'home/my_applications.html', {'applications': applications})
+
+
+@login_required
+def my_enrollments(request):
+    """Lets a logged-in user track the status of their own training enrollments."""
+    enrollments = Enrollment.objects.filter(user=request.user).select_related('training')
+    return render(request, 'home/my_enrollments.html', {'enrollments': enrollments})

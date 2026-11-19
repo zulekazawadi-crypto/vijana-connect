@@ -31,6 +31,8 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(Enrollment)
 class EnrollmentAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'training', 'email', 'phone', 'education', 'enrolled_at')
-    list_filter = ('training', 'education')
+    # "status" can be changed directly in the list (list_editable below)
+    list_display = ('full_name', 'training', 'email', 'phone', 'education', 'status', 'enrolled_at')
+    list_editable = ('status',)
+    list_filter = ('status', 'training', 'education')
     search_fields = ('full_name', 'email')

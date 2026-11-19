@@ -82,6 +82,14 @@ class Application(models.Model):
 
 class Enrollment(models.Model):
     """One person enrolling in one training course."""
+
+    # The three results an enrollment can have (the admin changes this)
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Not Accepted'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     training = models.ForeignKey(Training, on_delete=models.CASCADE,
                                  related_name='enrollments')
@@ -91,6 +99,15 @@ class Enrollment(models.Model):
     education = models.CharField(max_length=50, choices=EDUCATION_CHOICES,
                                  verbose_name="Highest education level")
     enrolled_at = models.DateTimeField(auto_now_add=True)
+
+    # NEW: the result of the enrollment, starts as "pending"
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    # NEW: the admin writes course details here (start date, venue, what to bring)
+    instructions = models.TextField(
+        blank=True,
+        help_text="Shown to the learner when the status is Approved."
+    )
 
     class Meta:
         unique_together = ('user', 'training')

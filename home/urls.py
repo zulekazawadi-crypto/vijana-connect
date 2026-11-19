@@ -16,6 +16,7 @@ urlpatterns = [
 
     # Track applications (new)
     path('my-applications/', views.my_applications, name='my_applications'),
+    path('my-enrollments/', views.my_enrollments, name='my_enrollments'),
 
     # Accounts
     path('register/', views.register, name='register'),
