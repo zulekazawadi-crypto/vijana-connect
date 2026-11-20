@@ -4,39 +4,43 @@
 
 {% block content %}
 
-<div class="page-banner">
-    <h1>Contact Us</h1>
-    <p>We would love to hear from you</p>
-</div>
+{% include 'home/partials/page_header.html' with title='Contact Us' %}
 
-<section class="page-section">
+<div class="container-xxl py-5">
     <div class="container">
-        <div class="row g-4">
+        <h1 class="text-center mb-5">Get In Touch</h1>
+        <div class="row g-5">
 
-            <div class="col-md-5">
-                <div class="info-card">
-                    <h5>Get In Touch</h5>
-                    <p><strong>Email:</strong> info@vijanaconnect.co.ke</p>
-                    <p><strong>Phone:</strong> +254 700 000 000</p>
-                    <p><strong>Location:</strong> Nairobi, Kenya</p>
+            <div class="col-lg-5">
+                <div class="job-item p-4 h-100">
+                    <h5 class="mb-4">Our Details</h5>
+                    <p class="mb-3"><i class="fa fa-map-marker-alt text-primary me-3"></i>Nairobi, Kenya</p>
+                    <p class="mb-3"><i class="fa fa-phone-alt text-primary me-3"></i>+254 700 000 000</p>
+                    <p class="mb-0"><i class="fa fa-envelope text-primary me-3"></i>info@vijanaconnect.co.ke</p>
                 </div>
             </div>
 
-            <div class="col-md-7">
-                <div class="info-card">
-                    <h5>Send a Message</h5>
-                    <form class="contact-form" method="post">
+            <div class="col-lg-7">
+                <div class="job-item p-4">
+                    <h5 class="mb-4">Send a Message</h5>
+                    <form method="post">
                         {% csrf_token %}
-                        <input type="text" name="name" placeholder="Your name" required>
-                        <input type="email" name="email" placeholder="Your email" required>
-                        <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-                        <button type="submit" class="apply-btn">Send Message</button>
+                        <div class="mb-3">
+                            <input type="text" name="name" class="form-control" placeholder="Your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="message" rows="5" class="form-control" placeholder="Your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4">Send Message</button>
                     </form>
                 </div>
             </div>
 
         </div>
     </div>
-</section>
+</div>
 
 {% endblock %}

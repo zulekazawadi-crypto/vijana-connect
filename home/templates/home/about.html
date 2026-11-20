@@ -1,41 +1,71 @@
 {% extends 'home/base.html' %}
+{% load static %}
 
 {% block title %}About Us | Vijana Connect{% endblock %}
 
 {% block content %}
 
-<div class="page-banner">
-    <h1>About Us</h1>
-    <p>Who we are and why we exist</p>
-</div>
+{% include 'home/partials/page_header.html' with title='About Us' %}
 
-<section class="page-section">
+<!-- Who we are -->
+<div class="container-xxl py-5">
     <div class="container">
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="info-card">
-                    <h5>Who We Are</h5>
-                    <p>Vijana Connect links young people to employers, training providers and mentors.</p>
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="row g-0 about-bg rounded overflow-hidden">
+                    <div class="col-6 text-start">
+                        <img class="img-fluid w-100" src="{% static 'home/theme/img/about-1.jpg' %}">
+                    </div>
+                    <div class="col-6 text-start">
+                        <img class="img-fluid" src="{% static 'home/theme/img/about-2.jpg' %}" style="width: 85%; margin-top: 15%;">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid" src="{% static 'home/theme/img/about-3.jpg' %}" style="width: 85%;">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid w-100" src="{% static 'home/theme/img/about-4.jpg' %}">
+                    </div>
                 </div>
             </div>
-
-            <div class="col-md-4">
-                <div class="info-card">
-                    <h5>Our Mission</h5>
-                    <p>To reduce youth unemployment by making jobs, attachments and training easy to find.</p>
-                </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <h1 class="mb-4">Who We Are</h1>
+                <p class="mb-4">Vijana Connect links young people to employers, training providers and mentors, so that finding a job, a vacancy, an attachment or a course is simple and free.</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Register once and complete your profile</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Apply to companies and enroll in training</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Track every application from start to result</p>
+                <a class="btn btn-primary py-3 px-5 mt-3" href="{% url 'opportunities' %}">Explore Opportunities</a>
             </div>
-
-            <div class="col-md-4">
-                <div class="info-card">
-                    <h5>Our Vision</h5>
-                    <p>A country where every young person has access to opportunities to grow.</p>
-                </div>
-            </div>
-
         </div>
     </div>
-</section>
+</div>
+
+<!-- Mission and vision -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="job-item p-4 h-100 text-center">
+                    <i class="fa fa-3x fa-users text-primary mb-3"></i>
+                    <h5>Who We Serve</h5>
+                    <p class="text-muted mb-0">Young people looking for work, experience and skills, and companies looking for talent.</p>
+                </div>
+            </div>
+            <div class="col-md-4 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="job-item p-4 h-100 text-center">
+                    <i class="fa fa-3x fa-bullseye text-primary mb-3"></i>
+                    <h5>Our Mission</h5>
+                    <p class="text-muted mb-0">To reduce youth unemployment by making jobs, attachments and training easy to find.</p>
+                </div>
+            </div>
+            <div class="col-md-4 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="job-item p-4 h-100 text-center">
+                    <i class="fa fa-3x fa-eye text-primary mb-3"></i>
+                    <h5>Our Vision</h5>
+                    <p class="text-muted mb-0">A country where every young person has access to opportunities to grow.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

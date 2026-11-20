@@ -3,11 +3,14 @@
 {% block title %}Register | Vijana Connect{% endblock %}
 
 {% block content %}
-<section class="page-section">
+
+{% include 'home/partials/page_header.html' with title='Register' %}
+
+<div class="container-xxl py-5">
     <div class="auth-wrapper">
         <div class="info-card">
             <h4>Create your account</h4>
-            <p class="meta">Already registered? <a href="{% url 'login' %}">Login</a></p>
+            <p class="meta mb-4">Already registered? <a href="{% url 'login' %}">Login</a></p>
 
             <form class="contact-form" method="post">
                 {% csrf_token %}
@@ -18,9 +21,10 @@
                         <small class="field-error">{{ error }}</small>
                     {% endfor %}
                 {% endfor %}
-                <button type="submit" class="apply-btn">Register</button>
+                <button type="submit" class="btn btn-primary py-2 px-4">Register</button>
             </form>
         </div>
     </div>
-</section>
+</div>
+
 {% endblock %}

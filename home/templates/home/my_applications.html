@@ -4,21 +4,18 @@
 
 {% block content %}
 
-<div class="page-banner">
-    <h1>My Applications</h1>
-    <p>Track the progress of everything you applied for</p>
-</div>
+{% include 'home/partials/page_header.html' with title='My Applications' %}
 
-<section class="page-section">
+<div class="container-xxl py-5">
     <div class="container">
 
         {% for app in applications %}
-        <div class="info-card mb-4">
+        <div class="job-item p-4 mb-4">
 
-            <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div class="d-flex justify-content-between flex-wrap gap-2 mb-2">
                 <div>
-                    <h5>{{ app.opportunity.title }}</h5>
-                    <p class="meta">{{ app.opportunity.company }} &bull; Applied on {{ app.applied_at|date:"j M Y" }}</p>
+                    <h5 class="mb-1">{{ app.opportunity.title }}</h5>
+                    <p class="mb-0 text-muted">{{ app.opportunity.company }} &bull; Applied on {{ app.applied_at|date:"j M Y" }}</p>
                 </div>
                 <div>
                     <span class="status-badge status-{{ app.status }}">{{ app.get_status_display }}</span>
@@ -41,7 +38,7 @@
             {% else %}
                 <div class="notselected-box">
                     <p>Thank you for applying. You were not selected this time, but there are many more opportunities waiting for you.</p>
-                    <a href="{% url 'opportunities' %}" class="apply-btn">Explore Opportunities</a>
+                    <a href="{% url 'opportunities' %}" class="btn btn-primary">Explore Opportunities</a>
                 </div>
             {% endif %}
 
@@ -49,11 +46,11 @@
         {% empty %}
         <div class="text-center">
             <p>You have not applied for anything yet.</p>
-            <a href="{% url 'opportunities' %}" class="apply-btn">Explore Opportunities</a>
+            <a href="{% url 'opportunities' %}" class="btn btn-primary px-4">Explore Opportunities</a>
         </div>
         {% endfor %}
 
     </div>
-</section>
+</div>
 
 {% endblock %}

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
-from .models import Opportunity, Training, Application, Enrollment, Profile
+from .models import Opportunity, Training, Application, Enrollment, Profile, ContactMessage
 from .forms import RegisterForm, ProfileForm, ApplicationForm, EnrollmentForm
 
 
@@ -27,6 +27,15 @@ def about(request):
 
 
 def contact(request):
+    """Show the contact page. When the form is sent, save the message to the database."""
+    if request.method == 'POST':
+        ContactMessage.objects.create(
+            name=request.POST.get('name', '').strip()[:100],
+            email=request.POST.get('email', '').strip(),
+            message=request.POST.get('message', '').strip(),
+        )
+        messages.success(request, 'Thank you! Your message has been sent.')
+        return redirect('contact')  # reload the page so a refresh does not send it twice
     return render(request, 'home/contact.html')
 
 

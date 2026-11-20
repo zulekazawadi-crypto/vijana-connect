@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Opportunity, Training, Application, Enrollment, Profile
+from .models import Opportunity, Training, Application, Enrollment, Profile, ContactMessage
 
 
 @admin.register(Profile)
@@ -39,3 +39,8 @@ class EnrollmentAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_filter = ('status', 'training', 'education')
     search_fields = ('full_name', 'email')
+
+    @admin.register(ContactMessage)
+    class ContactMessageAdmin(admin.ModelAdmin):
+        list_display = ('name', 'email', 'created_at')
+        search_fields = ('name', 'email', 'message')

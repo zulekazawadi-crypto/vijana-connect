@@ -133,3 +133,17 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.full_name} enrolled in {self.training.title}"
+
+
+class ContactMessage(models.Model):
+    """A message sent from the Contact page. Not linked to other tables."""
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']  # newest first
+
+    def __str__(self):
+        return f"{self.name} - {self.email}"
