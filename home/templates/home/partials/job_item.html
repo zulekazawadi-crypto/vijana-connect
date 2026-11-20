@@ -10,6 +10,12 @@
                 <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ opp.location }}</span>
                 <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ opp.job_type }}</span>
                 <span class="text-truncate me-0"><i class="fa fa-tag text-primary me-2"></i>{{ opp.get_category_display }}</span>
+                {% if opp.min_education or opp.requirements %}
+                <p class="small text-muted mt-2 mb-0">
+                    <i class="fa fa-list-ul text-primary me-2"></i><strong>Requirements:</strong>
+                    {% if opp.min_education %}{{ opp.get_min_education_display }} or higher. {% endif %}{{ opp.requirements }}
+                </p>
+                {% endif %}
             </div>
         </div>
         <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">

@@ -4,13 +4,23 @@
 
 {% block content %}
 
-<div class="page-banner">
-    <h1>Opportunities</h1>
-    <p>Jobs, vacancies and attachments for young people</p>
+<!-- Page title band (from the theme) -->
+<div class="container-xxl py-5 bg-dark page-header mb-5">
+    <div class="container my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Opportunities</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-uppercase">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Opportunities</li>
+            </ol>
+        </nav>
+    </div>
 </div>
 
-<section class="opportunities">
+<!-- Opportunities list (comes from the database) -->
+<div class="container-xxl py-5">
     <div class="container">
+        <h1 class="text-center mb-4">Find Your Next Opportunity</h1>
 
         <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all">All</button>
@@ -19,31 +29,15 @@
             <button class="filter-btn" data-filter="attachment">Attachments</button>
         </div>
 
-        <div class="row g-4">
-            {% for opp in items %}
-            <div class="col-md-6 col-lg-4 opp-item" data-category="{{ opp.category }}">
-                <div class="opp-card">
-                    <span class="opp-badge {{ opp.category }}">{{ opp.get_category_display }}</span>
-                    <h5>{{ opp.title }}</h5>
-                    <p class="company">{{ opp.company }}</p>
-                    <p class="meta">{{ opp.location }} &bull; {{ opp.job_type }}</p>
-                    <p class="desc">{{ opp.description }}</p>
-                    {% if opp.min_education or opp.requirements %}
-                    <p class="requirements">
-                    <strong>Requirements:</strong>
-                     {% if opp.min_education %}{{ opp.get_min_education_display }} or higher. {% endif %}{{ opp.requirements }}
-                    </p>
-                    {% endif %}
-                    <p class="deadline">Deadline: {{ opp.deadline|date:"j M Y" }}</p>
-                    <a href="{% url 'apply' opp.id %}" class="apply-btn">Apply Now</a>
-                </div>
-            </div>
-            {% empty %}
-            <p class="text-center">No opportunities available right now.</p>
-            {% endfor %}
+        {% for opp in items %}
+        <div class="opp-item" data-category="{{ opp.category }}">
+            {% include 'home/partials/job_item.html' %}
         </div>
+        {% empty %}
+        <p class="text-center">No opportunities available right now. Please check back soon.</p>
+        {% endfor %}
 
     </div>
-</section>
+</div>
 
 {% endblock %}
