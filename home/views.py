@@ -8,7 +8,18 @@ from .forms import RegisterForm, ProfileForm, ApplicationForm, EnrollmentForm
 
 
 def index(request):
-    return render(request, 'home/index.html')
+    # Latest active opportunities, split by category, for the homepage tabs
+    active = Opportunity.objects.filter(is_active=True).order_by('-id')
+    context = {
+        'jobs': active.filter(category='job')[:5],
+        'vacancies': active.filter(category='vacancy')[:5],
+        'attachments': active.filter(category='attachment')[:5],
+        'job_count': active.filter(category='job').count(),
+        'vacancy_count': active.filter(category='vacancy').count(),
+        'attachment_count': active.filter(category='attachment').count(),
+        'course_count': Training.objects.count(),
+    }
+    return render(request, 'home/index.html', context)
 
 
 def about(request):

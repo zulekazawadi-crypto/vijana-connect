@@ -1,208 +1,266 @@
 {% extends 'home/base.html' %}
+{% load static %}
 
 {% block title %}Vijana Connect | Home{% endblock %}
 
 {% block content %}
 
-<!-- HERO -->
-<section class="home-hero">
-    <div class="container">
-        <div class="row align-items-center g-5">
+<!-- Carousel Start -->
+<div class="container-fluid p-0">
+    <div class="owl-carousel header-carousel position-relative">
 
-            <div class="col-lg-6">
-                <span class="hero-tag"><i class="bi bi-stars"></i> Kenya's youth opportunity hub</span>
-                <h1>Your Future Starts <span>Here</span></h1>
-                <p>Find jobs, vacancies, attachments and skills training from trusted companies, all in one place.</p>
-                <div class="hero-actions">
-                    <a href="{% url 'opportunities' %}" class="btn-gold">Explore Opportunities <i class="bi bi-arrow-right"></i></a>
-                    <a href="{% url 'training' %}" class="btn-ghost">Get Training</a>
-                </div>
-                <div class="hero-trust">
-                    <i class="bi bi-check-circle-fill"></i> Free to join
-                    <i class="bi bi-check-circle-fill"></i> Verified companies
-                    <i class="bi bi-check-circle-fill"></i> Apply in minutes
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="hero-visual">
-                    <div class="float-card fc-1">
-                        <i class="bi bi-briefcase-fill"></i>
-                        <div><strong>Software Developer</strong><small>TechHub Kenya &bull; Nairobi</small></div>
-                    </div>
-                    <div class="float-card fc-2">
-                        <i class="bi bi-mortarboard-fill"></i>
-                        <div><strong>ICT Attachment</strong><small>BrightPath Media &bull; Nakuru</small></div>
-                    </div>
-                    <div class="float-card fc-3">
-                        <i class="bi bi-people-fill"></i>
-                        <div><strong>1,200+ youth</strong><small>already connected</small></div>
+        <div class="owl-carousel-item position-relative">
+            <img class="img-fluid" src="{% static 'home/theme/img/carousel-1.jpg' %}" alt="">
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Your Future Starts Here</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Find jobs, vacancies, attachments and skills training from trusted companies, all in one place.</p>
+                            <a href="{% url 'opportunities' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Explore Opportunities</a>
+                            <a href="{% url 'training' %}" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Get Training</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-</section>
 
-<!-- STATS -->
-<section class="stats-strip">
-    <div class="container">
-        <div class="row text-center g-4">
-            <div class="col-6 col-md-3"><h3 class="counter" data-target="1200">0</h3><p>Young people</p></div>
-            <div class="col-6 col-md-3"><h3 class="counter" data-target="85">0</h3><p>Partner companies</p></div>
-            <div class="col-6 col-md-3"><h3 class="counter" data-target="300">0</h3><p>Opportunities posted</p></div>
-            <div class="col-6 col-md-3"><h3 class="counter" data-target="40">0</h3><p>Training courses</p></div>
+        <div class="owl-carousel-item position-relative">
+            <img class="img-fluid" src="{% static 'home/theme/img/carousel-2.jpg' %}" alt="">
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Connecting Youth to Opportunities</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Register for free, complete your profile once, and apply in minutes.</p>
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'my_applications' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">My Applications</a>
+                            {% else %}
+                            <a href="{% url 'register' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Create Free Account</a>
+                            {% endif %}
+                            <a href="{% url 'about' %}" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
 
-<!-- WHAT WE OFFER -->
-<section class="home-section">
+    </div>
+</div>
+<!-- Carousel End -->
+
+
+<!-- Search Start (sends the choice to the Opportunities page filter) -->
+<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
     <div class="container">
-        <h2 class="heading text-center">What We Offer</h2>
-        <p class="subheading text-center">Everything you need to start your career</p>
+        <form method="get" action="{% url 'opportunities' %}">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <select name="filter" class="form-select border-0">
+                        <option value="all" selected>All opportunities</option>
+                        <option value="job">Jobs</option>
+                        <option value="vacancy">Vacancies</option>
+                        <option value="attachment">Attachments</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark border-0 w-100">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+
+<!-- Category Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">What We Offer</h1>
         <div class="row g-4">
-            <div class="col-md-4">
-                <a href="{% url 'opportunities' %}?filter=job" class="offer-card">
-                    <div class="icon-circle"><i class="bi bi-briefcase"></i></div>
-                    <h5>Jobs</h5>
-                    <p>Full-time and part-time jobs from trusted companies.</p>
-                    <span class="learn-more">Browse jobs <i class="bi bi-arrow-right"></i></span>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                <a class="cat-item rounded p-4" href="{% url 'opportunities' %}?filter=job">
+                    <i class="fa fa-3x fa-briefcase text-primary mb-4"></i>
+                    <h6 class="mb-3">Jobs</h6>
+                    <p class="mb-0">{{ job_count }} open</p>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="{% url 'opportunities' %}?filter=vacancy" class="offer-card">
-                    <div class="icon-circle blue"><i class="bi bi-megaphone"></i></div>
-                    <h5>Vacancies</h5>
-                    <p>Current openings for young people across Kenya.</p>
-                    <span class="learn-more">See vacancies <i class="bi bi-arrow-right"></i></span>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                <a class="cat-item rounded p-4" href="{% url 'opportunities' %}?filter=vacancy">
+                    <i class="fa fa-3x fa-bullhorn text-primary mb-4"></i>
+                    <h6 class="mb-3">Vacancies</h6>
+                    <p class="mb-0">{{ vacancy_count }} open</p>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="{% url 'opportunities' %}?filter=attachment" class="offer-card">
-                    <div class="icon-circle orange"><i class="bi bi-mortarboard"></i></div>
-                    <h5>Attachments</h5>
-                    <p>Industrial attachment and internship placements.</p>
-                    <span class="learn-more">Find attachments <i class="bi bi-arrow-right"></i></span>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                <a class="cat-item rounded p-4" href="{% url 'opportunities' %}?filter=attachment">
+                    <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
+                    <h6 class="mb-3">Attachments</h6>
+                    <p class="mb-0">{{ attachment_count }} open</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                <a class="cat-item rounded p-4" href="{% url 'training' %}">
+                    <i class="fa fa-3x fa-book-reader text-primary mb-4"></i>
+                    <h6 class="mb-3">Training</h6>
+                    <p class="mb-0">{{ course_count }} courses</p>
                 </a>
             </div>
         </div>
     </div>
-</section>
+</div>
+<!-- Category End -->
 
-<!-- HOW IT WORKS -->
-<section class="home-section alt-bg">
+
+<!-- About Start -->
+<div class="container-xxl py-5">
     <div class="container">
-        <h2 class="heading text-center">How It Works</h2>
-        <p class="subheading text-center">Three simple steps to your next opportunity</p>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="step-card">
-                    <span class="step-number">1</span>
-                    <h5>Create an account</h5>
-                    <p>Register for free and build your youth profile.</p>
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="row g-0 about-bg rounded overflow-hidden">
+                    <div class="col-6 text-start">
+                        <img class="img-fluid w-100" src="{% static 'home/theme/img/about-1.jpg' %}">
+                    </div>
+                    <div class="col-6 text-start">
+                        <img class="img-fluid" src="{% static 'home/theme/img/about-2.jpg' %}" style="width: 85%; margin-top: 15%;">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid" src="{% static 'home/theme/img/about-3.jpg' %}" style="width: 85%;">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid w-100" src="{% static 'home/theme/img/about-4.jpg' %}">
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="step-card">
-                    <span class="step-number">2</span>
-                    <h5>Find what fits you</h5>
-                    <p>Filter jobs, vacancies and attachments near you.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="step-card">
-                    <span class="step-number">3</span>
-                    <h5>Apply and grow</h5>
-                    <p>Apply in minutes and take training to improve your skills.</p>
-                </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <h1 class="mb-4">We Help Young People Find Jobs, Attachments and Training</h1>
+                <p class="mb-4">Vijana Connect links young people to employers, training providers and mentors, so that finding the next step in your career is simple.</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Register for free and build your profile once</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Apply to companies in minutes</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Track every application and training request</p>
+                <a class="btn btn-primary py-3 px-5 mt-3" href="{% url 'about' %}">Read More</a>
             </div>
         </div>
     </div>
-</section>
+</div>
+<!-- About End -->
 
-<!-- FEATURED OPPORTUNITIES -->
-<section class="home-section">
+
+<!-- Opportunities Start (comes from the database) -->
+<div class="container-xxl py-5">
     <div class="container">
-        <h2 class="heading text-center">Featured Opportunities</h2>
-        <p class="subheading text-center">Fresh openings from our partner companies</p>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="opp-card">
-                    <span class="opp-badge job">Job</span>
-                    <h5>Software Developer</h5>
-                    <p class="company">TechHub Kenya</p>
-                    <p class="meta">Nairobi &bull; Full-time</p>
-                    <p class="deadline">Deadline: 30 Dec 2026</p>
-                    <a href="{% url 'opportunities' %}" class="apply-btn">View Details</a>
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Latest Opportunities</h1>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                        <h6 class="mt-n1 mb-0">Jobs</h6>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                        <h6 class="mt-n1 mb-0">Vacancies</h6>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                        <h6 class="mt-n1 mb-0">Attachments</h6>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    {% for opp in jobs %}
+                        {% include 'home/partials/job_item.html' %}
+                    {% empty %}
+                        <p>No jobs available right now.</p>
+                    {% endfor %}
+                    <a class="btn btn-primary py-3 px-5" href="{% url 'opportunities' %}?filter=job">Browse More Jobs</a>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="opp-card">
-                    <span class="opp-badge vacancy">Vacancy</span>
-                    <h5>Sales Assistant</h5>
-                    <p class="company">Savanna Supermarkets</p>
-                    <p class="meta">Eldoret &bull; Contract</p>
-                    <p class="deadline">Deadline: 20 Dec 2026</p>
-                    <a href="{% url 'opportunities' %}" class="apply-btn">View Details</a>
+
+                <div id="tab-2" class="tab-pane fade p-0">
+                    {% for opp in vacancies %}
+                        {% include 'home/partials/job_item.html' %}
+                    {% empty %}
+                        <p>No vacancies available right now.</p>
+                    {% endfor %}
+                    <a class="btn btn-primary py-3 px-5" href="{% url 'opportunities' %}?filter=vacancy">Browse More Vacancies</a>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="opp-card">
-                    <span class="opp-badge attachment">Attachment</span>
-                    <h5>ICT Attachment</h5>
-                    <p class="company">BrightPath Media</p>
-                    <p class="meta">Nakuru &bull; 3 Months</p>
-                    <p class="deadline">Deadline: 10 Jan 2027</p>
-                    <a href="{% url 'opportunities' %}" class="apply-btn">View Details</a>
+
+                <div id="tab-3" class="tab-pane fade p-0">
+                    {% for opp in attachments %}
+                        {% include 'home/partials/job_item.html' %}
+                    {% empty %}
+                        <p>No attachments available right now.</p>
+                    {% endfor %}
+                    <a class="btn btn-primary py-3 px-5" href="{% url 'opportunities' %}?filter=attachment">Browse More Attachments</a>
                 </div>
+
             </div>
-        </div>
-        <div class="text-center mt-5">
-            <a href="{% url 'opportunities' %}" class="btn-dark-green">See All Opportunities</a>
         </div>
     </div>
-</section>
+</div>
+<!-- Opportunities End -->
 
-<!-- TESTIMONIALS -->
-<section class="home-section alt-bg">
+
+<!-- Testimonial Start (sample text, replace with real stories later) -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
-        <h2 class="heading text-center">Success Stories</h2>
-        <p class="subheading text-center">What young people say about Vijana Connect</p>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="quote-card">
-                    <i class="bi bi-quote"></i>
-                    <p>I found my attachment in two days and was offered a job after.</p>
-                    <strong>Brian K.</strong><small>ICT Student, Nakuru</small>
+        <h1 class="text-center mb-5">Success Stories</h1>
+        <div class="owl-carousel testimonial-carousel">
+
+            <div class="testimonial-item bg-light rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>I found my attachment in two days and was offered a job after.</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded" src="{% static 'home/theme/img/testimonial-1.jpg' %}" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Brian K.</h5>
+                        <small>ICT Student, Nakuru</small>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="quote-card">
-                    <i class="bi bi-quote"></i>
-                    <p>The CV training helped me pass my first interview.</p>
-                    <strong>Faith W.</strong><small>Graduate, Nairobi</small>
+
+            <div class="testimonial-item bg-light rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>The CV training helped me pass my first interview.</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded" src="{% static 'home/theme/img/testimonial-2.jpg' %}" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Faith W.</h5>
+                        <small>Graduate, Nairobi</small>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="quote-card">
-                    <i class="bi bi-quote"></i>
-                    <p>Easy to use, even on my phone. I applied to five places in one evening.</p>
-                    <strong>Kevin M.</strong><small>Job seeker, Kisumu</small>
+
+            <div class="testimonial-item bg-light rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Easy to use, even on my phone. I applied to five places in one evening.</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded" src="{% static 'home/theme/img/testimonial-3.jpg' %}" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Kevin M.</h5>
+                        <small>Job seeker, Kisumu</small>
+                    </div>
                 </div>
             </div>
+
+            <div class="testimonial-item bg-light rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>I enrolled in a computer skills course and now I can apply for office jobs.</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded" src="{% static 'home/theme/img/testimonial-4.jpg' %}" style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Mercy A.</h5>
+                        <small>Learner, Eldoret</small>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-</section>
-
-<!-- CALL TO ACTION -->
-<section class="cta-banner">
-    <div class="container text-center">
-        <h2>Ready to take the next step?</h2>
-        <p>Join thousands of young people building their careers.</p>
-        <a href="#" class="btn-gold">Create Free Account</a>
-    </div>
-</section>
+</div>
+<!-- Testimonial End -->
 
 {% endblock %}
