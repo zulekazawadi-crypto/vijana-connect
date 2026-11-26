@@ -18,7 +18,8 @@
                     <i class="fa fa-3x fa-book-reader text-primary mb-3"></i>
                     <h5 class="mb-3">{{ course.title }}</h5>
                     <p class="text-muted">{{ course.description }}</p>
-                    <p class="mb-4"><i class="far fa-clock text-primary me-2"></i>{{ course.duration }}</p>
+                    <p class="mb-2"><i class="far fa-clock text-primary me-2"></i>{{ course.duration }}</p>
+                    <p class="mb-4"><i class="fa fa-money-bill-wave text-primary me-2"></i>{% if course.price %}KES {{ course.price }}{% else %}Free{% endif %}</p>
                     <a class="btn btn-primary px-4" href="{% url 'enroll' course.id %}">Enroll</a>
                 </div>
             </div>

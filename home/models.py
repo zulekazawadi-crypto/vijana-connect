@@ -42,7 +42,7 @@ class Opportunity(models.Model):
     deadline = models.DateField()
     is_active = models.BooleanField(default=True)
 
-    # NEW: requirements shown on the card and checked when someone applies
+    # Requirements shown on the card and checked when someone applies
     min_education = models.CharField(
         max_length=50, choices=EDUCATION_CHOICES, blank=True,
         help_text="Leave empty if there is no minimum education."
@@ -67,6 +67,12 @@ class Training(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     duration = models.CharField(max_length=50)
+
+    # NEW: the course fee in Kenya shillings. 0 means the course is free.
+    price = models.PositiveIntegerField(
+        default=0,
+        help_text="Course fee in KES. Use 0 for a free course."
+    )
 
     def __str__(self):
         return self.title
@@ -131,8 +137,46 @@ class Enrollment(models.Model):
         unique_together = ('user', 'training')
         ordering = ['-enrolled_at']
 
+    @property
+    def is_paid(self):
+        """True if this enrollment has at least one successful payment."""
+        return self.payments.filter(status='success').exists()
+
     def __str__(self):
         return f"{self.full_name} enrolled in {self.training.title}"
+
+
+class Payment(models.Model):
+    """One M-Pesa payment attempt for one enrollment. Filled in by the M-Pesa callback."""
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),      # prompt sent, waiting for the customer's PIN
+        ('success', 'Paid'),
+        ('failed', 'Failed'),
+        ('cancelled', 'Cancelled'),  # customer closed the prompt
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE,
+                                   related_name='payments')
+    phone = models.CharField(max_length=15)          # format 2547XXXXXXXX
+    amount = models.PositiveIntegerField()           # in KES
+
+    # IDs Safaricom gives us, used to match the callback to this payment
+    merchant_request_id = models.CharField(max_length=100, blank=True)
+    checkout_request_id = models.CharField(max_length=100, blank=True, db_index=True)
+
+    mpesa_receipt = models.CharField(max_length=50, blank=True)   # e.g. QGH7XXXXXX
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    result_desc = models.CharField(max_length=255, blank=True)    # Safaricom's message
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} - KES {self.amount} - {self.get_status_display()}"
 
 
 class ContactMessage(models.Model):
