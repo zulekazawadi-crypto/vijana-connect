@@ -85,3 +85,37 @@ def stk_push(phone, amount, account_reference, description):
         raise MpesaError(message)
 
     return data
+
+
+def stk_query(checkout_request_id):
+    """Ask Safaricom directly what happened to a payment (used when the callback has not arrived)."""
+    token = get_access_token()
+
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    password = base64.b64encode(
+        f"{settings.MPESA_SHORTCODE}{settings.MPESA_PASSKEY}{timestamp}".encode()
+    ).decode()
+
+    payload = {
+        'BusinessShortCode': settings.MPESA_SHORTCODE,
+        'Password': password,
+        'Timestamp': timestamp,
+        'CheckoutRequestID': checkout_request_id,
+    }
+
+    try:
+        response = requests.post(
+            f"{settings.MPESA_BASE_URL}/mpesa/stkpushquery/v1/query",
+            json=payload,
+            headers={'Authorization': f'Bearer {token}'},
+            timeout=30,
+        )
+        data = response.json()
+    except (requests.RequestException, ValueError) as error:
+        raise MpesaError(f'Could not reach Safaricom: {error}')
+
+    # While the customer has not answered yet, Safaricom sends an error without a ResultCode
+    if 'ResultCode' not in data:
+        raise MpesaError('The payment is still being processed. Please try again in a moment.')
+
+    return data

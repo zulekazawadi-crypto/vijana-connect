@@ -1,12 +1,16 @@
+import json
+
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Opportunity, Training, Application, Enrollment, Profile, ContactMessage, Payment
 from .forms import RegisterForm, ProfileForm, ApplicationForm, EnrollmentForm
-from .mpesa import stk_push, format_phone, MpesaError
-
+from .mpesa import stk_push, stk_query, format_phone, MpesaError
 
 def index(request):
     # Latest active opportunities, split by category, for the homepage tabs
@@ -243,3 +247,77 @@ def my_enrollments(request):
     """Lets a logged-in user track the status of their own training enrollments."""
     enrollments = Enrollment.objects.filter(user=request.user).select_related('training')
     return render(request, 'home/my_enrollments.html', {'enrollments': enrollments})
+
+
+def update_payment(payment, result_code, result_desc, receipt=''):
+    """Save the result of a payment. Safaricom's code 0 means paid, 1032 means the customer cancelled."""
+    if result_code == 0:
+        payment.status = 'success'
+        payment.mpesa_receipt = receipt
+    elif result_code == 1032:
+        payment.status = 'cancelled'
+    else:
+        payment.status = 'failed'
+    payment.result_desc = result_desc[:255]
+    payment.save()
+
+
+@csrf_exempt  # Safaricom is not logged in and cannot send a CSRF token
+def mpesa_callback(request, token):
+    """Safaricom posts the payment result here after the customer pays, cancels or fails."""
+    # Only accept calls that use our secret address
+    if not settings.MPESA_CALLBACK_SECRET or token != settings.MPESA_CALLBACK_SECRET:
+        return JsonResponse({'ResultCode': 1, 'ResultDesc': 'Rejected'}, status=403)
+    if request.method != 'POST':
+        return JsonResponse({'ResultCode': 1, 'ResultDesc': 'POST only'}, status=405)
+
+    # Read the message Safaricom sent
+    try:
+        data = json.loads(request.body)
+        callback = data['Body']['stkCallback']
+        checkout_id = callback['CheckoutRequestID']
+        result_code = int(callback['ResultCode'])
+    except (ValueError, KeyError, TypeError):
+        return JsonResponse({'ResultCode': 1, 'ResultDesc': 'Bad data'}, status=400)
+
+    # Match it to our payment. Only update payments that are still pending,
+    # so the same callback arriving twice cannot change a finished payment.
+    payment = Payment.objects.filter(checkout_request_id=checkout_id).first()
+    if payment is not None and payment.status == 'pending':
+        receipt = ''
+        description = callback.get('ResultDesc', '')
+
+        if result_code == 0:
+            items = callback.get('CallbackMetadata', {}).get('Item', [])
+            values = {item.get('Name'): item.get('Value') for item in items}
+            receipt = str(values.get('MpesaReceiptNumber', ''))
+
+            # Safety check: the amount paid must match the amount we asked for
+            if float(values.get('Amount', 0)) != float(payment.amount):
+                result_code = 1
+                description = 'Amount paid did not match the course fee.'
+
+        update_payment(payment, result_code, description, receipt)
+
+    # Always answer Safaricom with "accepted"
+    return JsonResponse({'ResultCode': 0, 'ResultDesc': 'Accepted'})
+
+
+@login_required
+def check_payment(request, payment_id):
+    """The learner clicks 'Check status'. We ask Safaricom what happened to the payment."""
+    payment = get_object_or_404(Payment, id=payment_id, user=request.user)
+
+    if request.method == 'POST' and payment.status == 'pending':
+        try:
+            result = stk_query(payment.checkout_request_id)
+        except MpesaError as error:
+            messages.info(request, str(error))
+        else:
+            update_payment(payment, int(result['ResultCode']), result.get('ResultDesc', ''))
+            if payment.status == 'success':
+                messages.success(request, 'Payment received. Thank you!')
+            else:
+                messages.warning(request, f'The payment did not go through: {payment.result_desc}')
+
+    return redirect('my_enrollments')

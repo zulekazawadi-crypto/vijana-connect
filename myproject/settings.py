@@ -141,3 +141,5 @@ if MPESA_ENV == 'production':
     MPESA_BASE_URL = 'https://api.safaricom.co.ke'
 else:
     MPESA_BASE_URL = 'https://sandbox.safaricom.co.ke'
+
+    MPESA_CALLBACK_SECRET = config('MPESA_CALLBACK_SECRET', default='')

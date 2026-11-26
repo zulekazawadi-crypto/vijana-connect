@@ -16,6 +16,8 @@ urlpatterns = [
 
     # Payment for a training course
     path('pay/<int:enrollment_id>/', views.pay, name='pay'),
+    path('payments/check/<int:payment_id>/', views.check_payment, name='check_payment'),
+    path('payments/callback/<str:token>/', views.mpesa_callback, name='mpesa_callback'),
 
     # Tracking
     path('my-applications/', views.my_applications, name='my_applications'),

@@ -21,17 +21,27 @@
                     <span class="status-badge status-{{ enrollment.status }}">{{ enrollment.get_status_display }}</span>
                 </div>
             </div>
-            {% if enrollment.training.price %}
-                  <p class="mb-3">
+           {% if enrollment.training.price %}
+              {% with last_payment=enrollment.payments.first %}
+                 <div class="mb-3">
                     <strong>Fee:</strong> KES {{ enrollment.training.price }} &mdash;
-            {% if enrollment.is_paid %}
+               {% if enrollment.is_paid %}
                    <span class="status-badge status-selected">Paid</span>
-            {% else %}
-                 <span class="status-badge status-pending">Unpaid</span>
-                   <a href="{% url 'pay' enrollment.id %}" class="btn btn-primary btn-sm ms-2">Pay Now</a>
-            {% endif %}
-               </p>
-            {% endif %}
+               {% if last_payment.mpesa_receipt %}<small class="text-muted ms-2">Receipt: {{ last_payment.mpesa_receipt }}</small>{% endif %}
+               {% elif last_payment.status == 'pending' %}
+                   <span class="status-badge status-pending">Waiting for payment</span>
+                   <form method="post" action="{% url 'check_payment' last_payment.id %}" class="d-inline">
+               {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary btn-sm ms-2">Check status</button>
+                    </form>
+               {% else %}
+                    <span class="status-badge status-rejected">Unpaid</span>
+               {% if last_payment %}<small class="text-muted ms-2">{{ last_payment.result_desc }}</small>{% endif %}
+                    <a href="{% url 'pay' enrollment.id %}" class="btn btn-primary btn-sm ms-2">Pay Now</a>
+                {% endif %}
+                     </div>
+                {% endwith %}
+                 {% endif %}
             {% if enrollment.status == 'pending' %}
                 <p class="mb-0">Your enrollment is being reviewed. Check back soon.</p>
 
