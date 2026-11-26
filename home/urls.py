@@ -14,6 +14,9 @@ urlpatterns = [
     path('apply/<int:opp_id>/', views.apply, name='apply'),
     path('enroll/<int:course_id>/', views.enroll, name='enroll'),
 
+    # Payment for a training course
+    path('pay/<int:enrollment_id>/', views.pay, name='pay'),
+
     # Tracking
     path('my-applications/', views.my_applications, name='my_applications'),
     path('my-enrollments/', views.my_enrollments, name='my_enrollments'),

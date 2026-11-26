@@ -21,7 +21,17 @@
                     <span class="status-badge status-{{ enrollment.status }}">{{ enrollment.get_status_display }}</span>
                 </div>
             </div>
-
+            {% if enrollment.training.price %}
+                  <p class="mb-3">
+                    <strong>Fee:</strong> KES {{ enrollment.training.price }} &mdash;
+            {% if enrollment.is_paid %}
+                   <span class="status-badge status-selected">Paid</span>
+            {% else %}
+                 <span class="status-badge status-pending">Unpaid</span>
+                   <a href="{% url 'pay' enrollment.id %}" class="btn btn-primary btn-sm ms-2">Pay Now</a>
+            {% endif %}
+               </p>
+            {% endif %}
             {% if enrollment.status == 'pending' %}
                 <p class="mb-0">Your enrollment is being reviewed. Check back soon.</p>
 

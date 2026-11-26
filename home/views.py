@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
-from .models import Opportunity, Training, Application, Enrollment, Profile, ContactMessage
+from .models import Opportunity, Training, Application, Enrollment, Profile, ContactMessage, Payment
 from .forms import RegisterForm, ProfileForm, ApplicationForm, EnrollmentForm
+from .mpesa import stk_push, format_phone, MpesaError
 
 
 def index(request):
@@ -35,12 +36,11 @@ def contact(request):
             message=request.POST.get('message', '').strip(),
         )
         messages.success(request, 'Thank you! Your message has been sent.')
-        return redirect('contact')  # reload the page so a refresh does not send it twice
+        return redirect('contact')
     return render(request, 'home/contact.html')
 
 
 def opportunities(request):
-    # Read all active opportunities from the database and send them to the page
     items = Opportunity.objects.filter(is_active=True)
     return render(request, 'home/opportunities.html', {'items': items})
 
@@ -76,7 +76,7 @@ def profile(request):
             saved.user = request.user
             saved.save()
             messages.success(request, 'Your profile has been saved.')
-            return redirect('opportunities')  # journey: Complete Profile -> Explore Opportunities
+            return redirect('opportunities')
     else:
         form = ProfileForm(instance=existing)
 
@@ -118,14 +118,13 @@ def apply(request, opp_id):
     if request.method == 'POST':
         form = ApplicationForm(request.POST)
         if form.is_valid():
-            application = form.save(commit=False)  # build it but do not save yet
-            application.user = request.user        # who applied
-            application.opportunity = opportunity  # what they applied for
-            application.save()                     # now save to the database
+            application = form.save(commit=False)
+            application.user = request.user
+            application.opportunity = opportunity
+            application.save()
             messages.success(request, 'Your application has been submitted.')
             return redirect('my_applications')
     else:
-        # Fill the form from the profile so the person does not type it again
         form = ApplicationForm(initial={
             'full_name': user_profile.full_name,
             'email': request.user.email,
@@ -144,7 +143,7 @@ def apply(request, opp_id):
 
 @login_required
 def enroll(request, course_id):
-    """Enrollment form for one training course."""
+    """Enrollment form for one training course. Paid courses go on to the payment page."""
     course = get_object_or_404(Training, id=course_id)
 
     if Enrollment.objects.filter(user=request.user, training=course).exists():
@@ -158,10 +157,14 @@ def enroll(request, course_id):
             enrollment.user = request.user
             enrollment.training = course
             enrollment.save()
+
+            if course.price > 0:
+                messages.info(request, 'You are enrolled. Please pay the course fee to complete it.')
+                return redirect('pay', enrollment_id=enrollment.id)
+
             messages.success(request, 'You have been enrolled successfully.')
             return redirect('my_enrollments')
     else:
-        # Fill from the profile if the person has one
         user_profile = Profile.objects.filter(user=request.user).first()
         initial = {'email': request.user.email}
         if user_profile:
@@ -178,6 +181,53 @@ def enroll(request, course_id):
         'heading': f'Enroll: {course.title}',
         'subheading': f'Duration: {course.duration}',
         'button_text': 'Enroll Now',
+    })
+
+
+@login_required
+def pay(request, enrollment_id):
+    """Ask Safaricom to send an M-Pesa PIN prompt to the learner's phone."""
+    # Only the owner of the enrollment can pay for it
+    enrollment = get_object_or_404(Enrollment, id=enrollment_id, user=request.user)
+    course = enrollment.training
+
+    if course.price == 0:
+        messages.info(request, 'This course is free. No payment is needed.')
+        return redirect('my_enrollments')
+
+    if enrollment.is_paid:
+        messages.info(request, 'This course is already paid for.')
+        return redirect('my_enrollments')
+
+    if request.method == 'POST':
+        try:
+            phone = format_phone(request.POST.get('phone', ''))
+            response = stk_push(
+                phone=phone,
+                amount=course.price,
+                account_reference=f'ENR{enrollment.id}',
+                description='Course fee',
+            )
+        except MpesaError as error:
+            messages.error(request, str(error))
+        else:
+            # Save a "pending" payment. The callback (Stage 4) will update it later.
+            Payment.objects.create(
+                user=request.user,
+                enrollment=enrollment,
+                phone=phone,
+                amount=course.price,
+                merchant_request_id=response.get('MerchantRequestID', ''),
+                checkout_request_id=response.get('CheckoutRequestID', ''),
+            )
+            messages.success(request, 'Check your phone and enter your M-Pesa PIN to complete the payment.')
+            return redirect('my_enrollments')
+
+    user_profile = Profile.objects.filter(user=request.user).first()
+    return render(request, 'home/pay.html', {
+        'enrollment': enrollment,
+        'course': course,
+        'phone': user_profile.phone if user_profile else enrollment.phone,
     })
 
 

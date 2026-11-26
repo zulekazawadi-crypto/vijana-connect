@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Pay | Vijana Connect{% endblock %}
+
+{% block content %}
+
+{% include 'home/partials/page_header.html' with title='Pay with M-Pesa' %}
+
+<div class="container-xxl py-5">
+    <div class="auth-wrapper">
+        <div class="info-card">
+            <h4>{{ course.title }}</h4>
+            <p class="meta mb-3">Duration: {{ course.duration }}</p>
+
+            <p class="fs-5 mb-4">Amount to pay: <strong class="text-primary">KES {{ course.price }}</strong></p>
+
+            <form class="contact-form" method="post">
+                {% csrf_token %}
+                <label>M-Pesa phone number</label>
+                <input type="text" name="phone" value="{{ phone }}" placeholder="0712345678" required>
+                <small class="text-muted d-block mb-3">A prompt will appear on this phone. Enter your M-Pesa PIN to pay.</small>
+                <button type="submit" class="btn btn-primary py-2 px-4">Pay KES {{ course.price }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
